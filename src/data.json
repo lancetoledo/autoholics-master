@@ -1,0 +1,47 @@
+[
+    {
+        "id": 0,
+        "value": "Autoholics T-shirt",
+        "image": "https://img.freepik.com/premium-photo/front-view-black-hoodie-isolated-white-background_236836-22582.jpg",
+        "label": "clothing",
+        "price": 60,
+        "stars": 5,
+        "quantity": 7
+    },
+    {
+        "id": 1,
+        "value": "Autoholics Classic Logo Hat",
+        "image": "https://hemley.com.au/wp-content/uploads/2022/01/Hemley-Store-Thrills-King-Habits-5-Panel-Cap-Merch-Black1.jpg ",
+        "label": "hats",
+        "price": 40,
+        "stars": 5,
+        "quantity": 7
+    },
+    {
+        "id": 2,
+        "value": "Autoholics Keychain",
+        "image": "https://a.1stdibscdn.com/the-louis-vuitton-x-supreme-keychain-features-louis-vuittons-red-signature-for-sale/22569652/v_161736921655800448864/v_16173692_1655800449132_bg_processed.jpg",
+        "label": "accessories",
+        "price": 15,
+        "stars": 4,
+        "quantity": 7
+    },
+    {
+        "id": 3,
+        "value": "Autoholics Liscense Plate",
+        "image": "https://www.customplatepros.com/assets/images/klp-413-license-plate-teamlogo-main.png",
+        "label": "accessories",
+        "price": 20,
+        "stars": 3,
+        "quantity": 7
+    },
+    {
+        "id": 4,
+        "value": "Supreme Hoodie",
+        "image": "https://sothebys-md.brightspotcdn.com/dims4/default/a160def/2147483647/strip/true/crop/1569x2000+0+0/resize/2048x2611!/quality/90/?url=http%3A%2F%2Fsothebys-brightspot.s3.amazonaws.com%2Fmedia-desk%2F87%2Fea%2Fd2f7a01f4c488f60209a0802f967%2F383n10395-bn66n.jpg",
+        "label": "clothing",
+        "price": 999,
+        "stars": 5,
+        "quantity": 7
+    }
+]

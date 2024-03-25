@@ -14,13 +14,13 @@ const Home = () => {
 
     return (
         <div className='Home'>
-            <Header click={click} setClick={setClick} cart={[]} />
+            <Header click={click} setClick={setClick} />
             <Hero click={click} setClick={setClick} />
             <About click={click} setClick={setClick} />
             <Services click={click} setClick={setClick} />
             <Discover click={click} setClick={setClick} />
-            <Footer click={click} setClick={setClick} />
             <CartSidebar />
+            <Footer click={click} setClick={setClick} />
         </div>
     )
 }

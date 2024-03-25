@@ -35,6 +35,31 @@
   color: white;
 }
 
+/* Cart Sidebar styles */
+.cart-sidebar {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  /* Increased from -100% to ensure it's fully off-screen */
+  width: 300px;
+  height: 100vh;
+  /* Use 100vh for full height */
+  background-color: white;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, .5);
+  padding: 20px;
+  transition: right 0.3s ease-in-out;
+  z-index: 1050;
+  /* Ensure it's above other content */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  /* In case of scrolling */
+}
+
+.cart-sidebar-visible {
+  right: 0;
+  /* This will slide the sidebar into view */
+}
 
 
 .nav {

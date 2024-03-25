@@ -9,11 +9,20 @@ import * as Scroll from 'react-scroll';
 import { AiOutlineUser } from 'react-icons/ai';
 import { IoBagHandleOutline } from 'react-icons/io5';
 
-const ShopHeader = ({ click, setClick, cart, toggleCartSidebar }) => {
+// Redux Imports
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleCartSidebar } from '../../redux/slices/cartSlice'; // Import the action creator
+
+const Header = ({ click, setClick, }) => {
     const [isAuthUser, setAuthUser] = useState(false);
     const [user, setUser] = useState('');
     const [scrollNav, setScrollNav] = useState(false);
     const [isUser, setIsUser] = useState(false);
+    // Redux States:
+    const dispatch = useDispatch(); // Hook to dispatch actions
+    const cartCount = useSelector((state) => state.cart.items.length); // Get the number of items in the cart
+    const cartItems = useSelector((state) => state.cart.items);
+    const isSidebarVisible = useSelector((state) => state.cart.sidebarVisible);
 
     let ScrollLink = Scroll.Link;
 
@@ -41,6 +50,7 @@ const ShopHeader = ({ click, setClick, cart, toggleCartSidebar }) => {
 
     useEffect(() => {
         window.addEventListener('scroll', changeNav);
+        return () => window.removeEventListener('scroll', changeNav); // Cleanup
     }, []);
 
     const handleStatus = (status) => {
@@ -49,6 +59,11 @@ const ShopHeader = ({ click, setClick, cart, toggleCartSidebar }) => {
 
     const clearActive = () => {
         setClick(false);
+    };
+
+    // Use the dispatch function to toggle the cart sidebar
+    const handleToggleCartSidebar = () => {
+        dispatch(toggleCartSidebar());
     };
 
     const logout = async () => {
@@ -93,10 +108,10 @@ const ShopHeader = ({ click, setClick, cart, toggleCartSidebar }) => {
                         {!user?.displayName ? (
                             ''
                         ) : (
-                            <div className='cart-icon' onClick={toggleCartSidebar}>
-                                {cart.length > 0 && (
+                            <div className='cart-icon' onClick={handleToggleCartSidebar}>
+                                {cartCount > 0 && (
                                     <span id='cart-count' className='cart-count'>
-                                        {cart.length}
+                                        {cartCount}
                                     </span>
                                 )}
                                 <IoBagHandleOutline className='cart' />
@@ -118,4 +133,4 @@ const ShopHeader = ({ click, setClick, cart, toggleCartSidebar }) => {
     );
 };
 
-export default ShopHeader;
+export default Header;

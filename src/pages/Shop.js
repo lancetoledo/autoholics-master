@@ -18,7 +18,7 @@ const Shop = () => {
     // Cart Functionality
     const [cart, setCart] = useState([])
     const [cartSidebarVisible, setCartSidebarVisible] = useState(false); // New state for cart sidebar visibility
-    console.log(cartSidebarVisible)
+
     // Add to Cart Function
     const addToCart = (item) => {
         setCart([...cart, item]);

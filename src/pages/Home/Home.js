@@ -5,6 +5,7 @@ import About from './About'
 import Services from './Services'
 import Discover from './Discover'
 import Footer from '../../components/layout/Footer'
+import CartSidebar from '../../components/layout/CartSidebar'
 
 const Home = () => {
 
@@ -19,6 +20,7 @@ const Home = () => {
             <Services click={click} setClick={setClick} />
             <Discover click={click} setClick={setClick} />
             <Footer click={click} setClick={setClick} />
+            <CartSidebar />
         </div>
     )
 }

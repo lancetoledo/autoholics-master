@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
-// import Shop from './pages/Shop';
+import Shop from './pages/Shop';
 // import Product from './pages/Product';
 
 import './styles/Home.css';
@@ -18,8 +18,8 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/signin' element={<SignIn />} />
         <Route path='/signup' element={<SignUp />} />
-        {/* <Route path='/shop' element={<Shop />} />
-        <Route path='/product' element={<Product />} /> */}
+        <Route path='/shop' element={<Shop />} />
+        {/* <Route path='/product' element={<Product />} /> */}
       </Routes>
     </div>
   );

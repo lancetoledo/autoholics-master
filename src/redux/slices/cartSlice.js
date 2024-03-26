@@ -28,9 +28,21 @@ export const cartSlice = createSlice({
             state.sidebarVisible = !state.sidebarVisible;
             console.log("CLICKEDF")
         },
+        increaseQuantity: (state, action) => {
+            const existingItem = state.items.find(item => item.id === action.payload);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            }
+        },
+        decreaseQuantity: (state, action) => {
+            const existingItem = state.items.find(item => item.id === action.payload);
+            if (existingItem && existingItem.quantity > 1) {
+                existingItem.quantity -= 1;
+            }
+        },
     },
 });
 
-export const { addToCart, removeFromCart, toggleCartSidebar } = cartSlice.actions;
+export const { addToCart, removeFromCart, toggleCartSidebar, increaseQuantity, decreaseQuantity } = cartSlice.actions;
 
 export default cartSlice.reducer;

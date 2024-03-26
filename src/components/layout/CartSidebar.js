@@ -1,7 +1,7 @@
 // CartSidebar.js
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { toggleCartSidebar } from '../../redux/slices/cartSlice';
+import { removeFromCart, toggleCartSidebar, increaseQuantity, decreaseQuantity } from '../../redux/slices/cartSlice';
 import { AiOutlineClose } from 'react-icons/ai'; // Import the icon
 import { AiOutlineMinus } from "react-icons/ai";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -16,15 +16,22 @@ const CartSidebar = () => {
         dispatch(toggleCartSidebar()); // Dispatch the action to toggle the visibility
     };
 
+    // Function to handle removing an item from the cart
+    const handleRemoveFromCart = (itemId) => {
+        dispatch(removeFromCart(itemId));
+    };
+
     // Calculate total price
     const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
-    const increaseCount = () => {
-
+    const handleIncreaseCount = (itemId) => {
+        console.log("INCREASING")
+        dispatch(increaseQuantity(itemId));
     }
 
-    const decreaseCount = () => {
-
+    const handleDecreaseCount = (itemId) => {
+        console.log("DECREASING")
+        dispatch(decreaseQuantity(itemId));
     }
 
     return (
@@ -44,14 +51,14 @@ const CartSidebar = () => {
                             <div className='cart-item-btns'>
                                 <div className='cart-quantity-control'>
                                     <div className='cart-switch'>
-                                        <AiOutlineMinus className='cart-switch-ctrl' onClick={decreaseCount} />
+                                        <AiOutlineMinus className='cart-switch-ctrl' onClick={() => handleDecreaseCount(item.id)} />
                                     </div>
                                     <div id='cart-qtn'>{item.quantity}</div>
                                     <div className='cart-switch'>
-                                        <AiOutlinePlus className='cart-switch-ctrl' onClick={increaseCount} />
+                                        <AiOutlinePlus className='cart-switch-ctrl' onClick={() => handleIncreaseCount(item.id)} />
                                     </div>
                                 </div>
-                                <p className='remove-item'>Remove</p>
+                                <p className='remove-item' onClick={() => handleRemoveFromCart(item.id)}>Remove</p>
                             </div>
 
                         </div>

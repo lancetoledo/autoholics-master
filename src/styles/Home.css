@@ -13,14 +13,37 @@
   height: 0;
 }
 
+/* Position the toast container */
+.toast-container {
+  position: fixed;
+  top: 1rem;
+  /* Adjust as necessary */
+  right: 1rem;
+  /* Adjust as necessary */
+  z-index: 9999;
+  /* Ensure it's above other elements */
+}
+
+/* Style individual toasts */
 .toast {
+  min-width: 250px;
+  max-width: 300px;
+  border-radius: 8px;
+  background: #fff;
+  /* White background */
+  color: #333;
+  /* Dark text color */
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow */
   display: flex;
+  /* For flexbox alignment */
   align-items: center;
   justify-content: center;
-  width: 300px;
-  height: 100px;
-  position: fixed;
+  gap: 12px;
+  /* Spacing between icon and text */
 }
+
 
 .header {
   width: 100%;

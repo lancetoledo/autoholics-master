@@ -324,6 +324,7 @@
     transition: 0.15s;
 }
 
+
 #qtn {
     display: flex;
     justify-content: center;
@@ -345,7 +346,7 @@
 .add_to_cart_btn:hover {
     background-color: black;
     cursor: pointer;
-    transition: 0.20s;
+    transition: 0.30s;
 }
 
 .add_to_cart_btn h4 {

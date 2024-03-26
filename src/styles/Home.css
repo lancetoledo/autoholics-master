@@ -62,14 +62,14 @@
 .cart-sidebar {
   position: fixed;
   top: 0;
-  right: -300px;
+  right: -450px;
   /* Increased from -100% to ensure it's fully off-screen */
-  width: 300px;
+  width: 450px;
   height: 100vh;
   /* Use 100vh for full height */
   background-color: white;
   box-shadow: -2px 0 5px rgba(0, 0, 0, .5);
-  padding: 20px;
+  padding: 15px;
   transition: right 0.3s ease-in-out;
   z-index: 1050;
   /* Ensure it's above other content */
@@ -83,6 +83,207 @@
   right: 0;
   /* This will slide the sidebar into view */
 }
+
+.cart-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+  width: 100%;
+  border-bottom: 1px solid rgb(221, 221, 221);
+}
+
+.cart-header h2 {
+  display: flex;
+  align-items: center;
+}
+
+.close-icon {
+  cursor: pointer;
+  width: 24px;
+  align-self: flex-end;
+  /* background-color: blue; */
+  /* Position the close icon to the right */
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  /* background-color: red; */
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  /* Aligns items vertically */
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 15px;
+  /* background-color: red; */
+  height: auto;
+
+}
+
+.cart-item-image {
+  width: 120px;
+  /* Size adjusted to match the image */
+  height: 120px;
+  object-fit: cover;
+  margin-right: 10px;
+  border: 1px solid #e0e0e0;
+  /* Assuming there's a border */
+}
+
+.cart-item-details {
+  display: flex;
+  flex-direction: column;
+  /* background-color: yellow; */
+  height: auto;
+  /* width: auto; */
+}
+
+.cart-item-details p {
+  margin: 0;
+  /* Removes default margins */
+  padding: 2px 0;
+  /* Adjust padding as needed */
+  font-size: 14px;
+  /* Adjust font size to match the image */
+  color: #333;
+  /* Font color for better readability */
+}
+
+/* Assuming the first <p> tag is the product title and needs to stand out */
+.cart-item-details p:first-child {
+  font-weight: bold;
+  /* Makes the first <p> element bold */
+  color: #000;
+  /* Optional: Makes the title black */
+}
+
+/* Styles for size, quantity, and price */
+.cart-item-details p:not(:first-child) {
+  color: #555;
+  /* Lighter text color for less emphasis */
+  font-size: 12px;
+  /* Smaller font size */
+}
+
+#cart-price {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+/* Additional styles if needed */
+.cart-item-details p:nth-child(2) {
+  color: #555;
+  /* Color for the size text */
+}
+
+.cart-item-details p:nth-child(3) {
+  color: #555;
+  /* Color for the quantity text */
+}
+
+.cart-item-details p:last-child {
+  color: #555;
+  /* Color for the price text */
+}
+
+.cart-item-btns {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  /* background-color: red; */
+  width: 100%;
+}
+
+.cart-quantity-control {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-color: darkgoldenrod; */
+  width: 130px;
+  height: 37PX;
+  border: 0.5px solid lightgray;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+.cart-switch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+.cart-switch-ctrl {
+  color: rgb(0, 0, 0);
+  height: 10px;
+  /* width: 10px;
+  background-color: red; */
+}
+
+.cart-switch-ctrl:hover {
+  color: black;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+#cart-qtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: small;
+  font-weight: 200;
+}
+
+.remove-item {
+  text-decoration: underline;
+  display: flex;
+}
+
+/* The checkout button */
+.checkout-button {
+  height: auto;
+  width: calc(100% - 40px);
+  background-color: #11873b;
+  /* Green background */
+  color: white;
+  padding: 15px 20px;
+  /* Space above the button */
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 16px;
+  /* Larger font size for readability */
+  align-self: center;
+  margin-bottom: 20px;
+}
+
+.checkout-button:hover {
+  padding: 15px 20px;
+  background-color: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: 0.3s ease;
+  align-self: center;
+  /* Center the button in the sidebar */
+
+  /* Full width minus padding */
+}
+
+
 
 
 .nav {

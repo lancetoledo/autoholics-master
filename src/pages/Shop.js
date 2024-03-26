@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { RiArrowDropDownLine } from 'react-icons/ri';
 import { collection, onSnapshot } from 'firebase/firestore';
-import { auth } from '../utils/firebase';
-import { signOut } from 'firebase/auth';
 import db from '../utils/firebase';
 import Header from '../components/layout/Header';
 import Item from '../components/shop/Item';
 import Category from '../components/shop/Category';
-import data from '../data.json';
+import CartSidebar from '../components/layout/CartSidebar';
+
 
 
 const Shop = () => {
@@ -147,17 +146,7 @@ const Shop = () => {
                 }
             </div>
             {/* Cart Sidebar JSX */}
-            {cartSidebarVisible && (
-                <div className={`cart-sidebar ${cartSidebarVisible ? 'cart-sidebar-visible' : ''}`}>
-                    <h2>Cart Items</h2>
-                    {cart.map((item, index) => (
-                        <div key={index}>
-                            <p>{item.value}</p>
-                            <p>Quantity: 1</p> {/* Adjust according to your needs */}
-                        </div>
-                    ))}
-                </div>
-            )}
+            <CartSidebar />
         </div >
     )
 }

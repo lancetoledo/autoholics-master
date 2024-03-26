@@ -9,8 +9,18 @@ export const cartSlice = createSlice({
     },
     reducers: {
         addToCart: (state, action) => {
-            state.items.push(action.payload);
+            const existingIndex = state.items.findIndex(
+                item => item.id === action.payload.id && item.size === action.payload.size
+            );
+
+            if (existingIndex !== -1) {
+                state.items[existingIndex].quantity += action.payload.quantity;
+            } else {
+                console.log("ADDING TO CART")
+                state.items.push(action.payload);
+            }
         },
+
         removeFromCart: (state, action) => {
             state.items = state.items.filter(item => item.id !== action.payload);
         },

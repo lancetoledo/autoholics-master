@@ -1,14 +1,17 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 import Header from '../components/layout/Header';
-import { Link } from 'react-router-dom';
-import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
+import CartSidebar from '../components/layout/CartSidebar';
+
 import toast, { Toaster } from 'react-hot-toast';
-import * as Scroll from 'react-scroll';
+
 import { AiOutlineMinus } from "react-icons/ai";
 import { AiOutlinePlus } from "react-icons/ai";
 import data from '../data.json'
 import image from '../images/autoholicsShirt.jpg'
+
+import { useDispatch, useSelector } from 'react-redux'; // Import the useDispatch hook
+import { addToCart } from '../redux/slices/cartSlice'; // Import the addToCart action
 
 
 function Product() {
@@ -22,6 +25,10 @@ function Product() {
     const mediumSelect = medium ? "mediumSelect" : ""
     const largeSelect = large ? "largeSelect" : ""
     const xLargeSelect = xLarge ? "xLargeSelect" : ""
+
+    const dispatch = useDispatch(); // Initialize the dispatch function
+    const cartCount = useSelector((state) => state.cart.items); // Get the number of items in the cart
+    console.log(cartCount, "current items")
 
     // Temp func that turn on and off the state for each swatch (make dynamic later)
     const selectSize = (e) => {
@@ -48,18 +55,35 @@ function Product() {
         }
     }
 
-    const addToCart = () => {
-        let newItems = []
-        console.log(qty, "QUANTITY")
-        for (let i = 0; i < qty; i++) {
-            newItems.push("item")
-        }
-        console.log(newItems)
-        let temp = [...cart, ...newItems]
-        console.log(cart, "BEFORE")
-        setCart([...cart, temp])
-        console.log(cart, "AFTER")
-    }
+    // Refactor this function to dispatch the addToCart action
+    const addToCartHandler = () => {
+        // Determine the selected size
+        let selectedSize = '';
+        if (small) selectedSize = 'S';
+        else if (medium) selectedSize = 'M';
+        else if (large) selectedSize = 'L';
+        else if (xLarge) selectedSize = 'XL';
+
+        // Construct the product object to add to cart
+        const productToAdd = {
+            id: 'autoholics-tshirt', // This should be a unique identifier for the product
+            name: 'AUTOHOLICS T-SHIRT',
+            price: 29.99,
+            size: selectedSize,
+            quantity: qty,
+            image: image
+        };
+
+        // Dispatch the addToCart action with the product object
+        dispatch(addToCart(productToAdd));
+
+        // Reset the quantity and selected size
+        setQty(1);
+        setSmall(false);
+        setMedium(false);
+        setLarge(false);
+        setXLarge(false);
+    };
 
 
 
@@ -108,13 +132,14 @@ function Product() {
                                     <AiOutlinePlus className='switch_ctrl' onClick={increaseCount} />
                                 </div>
                             </div>
-                            <div className='add_to_cart_btn' onClick={addToCart}>
+                            <div className='add_to_cart_btn' onClick={addToCartHandler}>
                                 <h4>ADD TO CART</h4>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <CartSidebar />
         </div>
     )
 }

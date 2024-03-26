@@ -1,40 +1,52 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import Login from '../components/auth/Login';
-import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { auth } from '../utils/firebase';
-import { getAuth } from "firebase/auth";
 
-// Google Auth
-import { GoogleAuthProvider } from "firebase/auth";
-const loginWithGoogle = async (e) => {
-    const provider = new GoogleAuthProvider();
-    return await signInWithPopup(auth, provider).then(async (response) => {
-        //Create a user to the users collection
-        console.log(response)
-        if (response) {
-            const auth = getAuth();
-            const user = auth.currentUser;
-            window.location = '/'
-        }
-    })
-}
+// Import useDispatch from react-redux
+import { useDispatch, useSelector } from 'react-redux';
+// Import auth thunks
+import { signInWithEmail, signInWithGoogle } from '../redux/thunks/authThunks';
+import { useNavigate } from 'react-router-dom';
 
 
 const SignIn = () => {
 
-    const emailRef = useRef()
-    const passwordRef = useRef()
+    const emailRef = useRef();
+    const passwordRef = useRef();
+    // Initialize useDispatch
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
+    // Access the authentication state
+    const { user } = useSelector((state) => state.auth || {}); // Add a fallback to an empty object
+
+    // Use useEffect to listen for changes in the authentication state
+    useEffect(() => {
+        if (user) {
+            console.log("USER DOES EXIST!")
+            navigate('/'); // Redirect to the home page if the user is logged in
+        }
+        // I can also react to changes in 'loading' or 'error' if needed for UI feedback
+    }, [user, navigate]);
+
+    console.log(user, "THIS IS THE USER")
+
+    // Refactor login function to use Redux thunk
     const login = async (e) => {
-        e.preventDefault()
-        try {
-            await signInWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value)
-            window.location = '/'
-        }
-        catch (err) {
-            alert(err.message)
-        }
-    }
+        e.preventDefault();
+        // Dispatch signInWithEmail thunk instead of calling Firebase directly
+        dispatch(signInWithEmail(emailRef.current.value, passwordRef.current.value));
+
+    };
+
+    // Refactor loginWithGoogle function to use Redux thunk
+    const handleLoginWithGoogle = async () => {
+        // Dispatch signInWithGoogle thunk instead of calling Firebase directly
+        dispatch(signInWithGoogle());
+
+    };
+
+
+
 
     return (
         <Login
@@ -48,7 +60,7 @@ const SignIn = () => {
             passwordInput={passwordRef}
             btnFunction={login}
             googleMsg='Sign in with Google'
-            googleFunction={loginWithGoogle}
+            googleFunction={handleLoginWithGoogle}
         />
     )
 }

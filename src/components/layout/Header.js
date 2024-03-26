@@ -2,8 +2,7 @@ import React from 'react';
 import logo from '../../images/autoholicsLogo.png';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
-import db from '../../utils/firebase';
+
 import toast, { Toaster } from 'react-hot-toast';
 import * as Scroll from 'react-scroll';
 import { AiOutlineUser } from 'react-icons/ai';
@@ -12,43 +11,37 @@ import { IoBagHandleOutline } from 'react-icons/io5';
 // Redux Imports
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleCartSidebar } from '../../redux/slices/cartSlice'; // Import the action creator
+import { logout } from '../../redux/slices/authSlice'; // Import the logout action
 
 const Header = ({ click, setClick, }) => {
-    const [isAuthUser, setAuthUser] = useState(false);
-    const [user, setUser] = useState('');
     const [scrollNav, setScrollNav] = useState(false);
-    const [isUser, setIsUser] = useState(false);
     // Redux States:
     const dispatch = useDispatch(); // Hook to dispatch actions
+    const { user } = useSelector((state) => state.auth || {}); // Add a fallback to an empty object
     const cartCount = useSelector((state) => state.cart.items.length); // Get the number of items in the cart
     const cartItems = useSelector((state) => state.cart.items);
     const isSidebarVisible = useSelector((state) => state.cart.sidebarVisible);
 
     let ScrollLink = Scroll.Link;
 
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-        if (user && isUser === false) {
-            const uid = user.uid;
-            console.log('setting user');
-            setUser(user);
-            setIsUser(true);
-        } else {
-            // User is signed out
-            // ...
-            console.log("User is signed in", user)
-        }
-    });
-
-    const changeNav = () => {
-        if (window.scrollY >= 80) {
-            setScrollNav(true);
-        } else {
-            setScrollNav(false);
-        }
+    // Logout Function
+    const handleLogout = () => {
+        dispatch(logout());
+        // Optionally, navigate to a different route upon logout
+        // navigate('/signin');
     };
 
+
+
+    // UseEffect to scroll user on Header items.
     useEffect(() => {
+        const changeNav = () => {
+            if (window.scrollY >= 80) {
+                setScrollNav(true);
+            } else {
+                setScrollNav(false);
+            }
+        };
         window.addEventListener('scroll', changeNav);
         return () => window.removeEventListener('scroll', changeNav); // Cleanup
     }, []);
@@ -64,20 +57,6 @@ const Header = ({ click, setClick, }) => {
     // Use the dispatch function to toggle the cart sidebar
     const handleToggleCartSidebar = () => {
         dispatch(toggleCartSidebar());
-    };
-
-    const logout = async () => {
-        console.log('HII');
-        await signOut(auth)
-            .then(() => {
-                // Sign-out successful.
-            })
-            .catch((error) => {
-                // An error happened.
-                console.log(error.message);
-            });
-        // toast.success("You logged out!")
-        setUser('');
     };
 
     return (
@@ -118,7 +97,7 @@ const Header = ({ click, setClick, }) => {
                             </div>
                         )}
                         {user ? (
-                            <div className='btn' id='nav_btn' onClick={() => logout()}>
+                            <div className='btn' id='nav_btn' onClick={() => handleLogout()}>
                                 Log Out
                             </div>
                         ) : (

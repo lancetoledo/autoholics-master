@@ -25,6 +25,7 @@ const Header = ({ click, setClick, }) => {
     const location = useLocation();
     const ScrollLink = Scroll.Link;
 
+    console.log(user, "USER IS LOGGED IN BRO")
     // Logout Function
     const handleLogout = () => {
         dispatch(logout());
@@ -78,7 +79,7 @@ const Header = ({ click, setClick, }) => {
             />
             <div className='header' style={{ background: scrollNav ? '#010606' : 'transparent' }}>
                 <div className='nav'>
-                    <ScrollLink activeClass='active' className='logo' to='hero' spy={true} smooth={true} offset={50} duration={500} onClick={() => clearActive()}>
+                    <ScrollLink activeClass='active' className='logo' to='hero' spy={true} smooth={true} offset={50} duration={500} onClick={() => redirectToHomeAndScroll('hero')}>
                         <img src={logo} alt='Autoholics' />
                     </ScrollLink>
                     <div className='nav_menu'>

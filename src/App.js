@@ -19,7 +19,7 @@ function App() {
         <Route path='/signin' element={<SignIn />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/shop' element={<Shop />} />
-        <Route path='/product' element={<Product />} />
+        <Route path='/product/:productId' element={<Product />} />
       </Routes>
     </div>
   );

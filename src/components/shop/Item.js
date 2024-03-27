@@ -2,7 +2,7 @@ import React from 'react';
 import { FaStar } from 'react-icons/fa';
 import { Link } from "react-router-dom";
 
-const Item = ({ item, addToCart }) => {
+const Item = ({ item }) => {
     const renderStars = () => {
         const stars = [];
         for (let i = 0; i < item.stars; i++) {
@@ -11,13 +11,10 @@ const Item = ({ item, addToCart }) => {
         return stars;
     };
 
-    const productPage = () => {
-
-    }
-
     return (
-        <div className='item' key={item.id} onClick={() => addToCart(item)}>
-            <Link className='logo_div' to="/product" style={{ textDecoration: 'none' }}>
+        <div className='item'>
+            {/* Update the Link to use a template string with the product ID */}
+            <Link to={`/product/${item.id}`} className='logo_div' style={{ textDecoration: 'none' }}>
                 <img id='item_image' src={item.image} alt={item.value} />
             </Link>
             <div className='item_info'>
@@ -28,5 +25,5 @@ const Item = ({ item, addToCart }) => {
         </div>
     );
 };
-// nice
-export default Item; 
+
+export default Item;

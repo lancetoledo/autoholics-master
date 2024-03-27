@@ -1,5 +1,4 @@
-// CartSidebar.js
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeFromCart, toggleCartSidebar, increaseQuantity, decreaseQuantity } from '../../redux/slices/cartSlice';
 import { AiOutlineClose } from 'react-icons/ai'; // Import the icon
@@ -33,7 +32,7 @@ const CartSidebar = () => {
         console.log("DECREASING")
         dispatch(decreaseQuantity(itemId));
     }
-
+    console.log(cartItems, "THIS THE CARTTTTTT")
     return (
         <div className={`cart-sidebar ${isSidebarVisible ? 'cart-sidebar-visible' : ''}`}>
             <div className="cart-header">

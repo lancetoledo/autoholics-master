@@ -7,13 +7,21 @@ import Item from '../components/shop/Item';
 import Category from '../components/shop/Category';
 import CartSidebar from '../components/layout/CartSidebar';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchShopItems } from '../redux/slices/shopSlice';
+
 
 
 const Shop = () => {
-    const [shop, setShop] = useState([]);
+    // Initialize dispatch to dispatch actions
+    const dispatch = useDispatch();
+    const shopItems = useSelector(state => state.shop.items); // Get the items from the Redux store
+    const shopStatus = useSelector(state => state.shop.status); // Get the status to handle loading state
+    // Local state for managing UI elements like dropdowns
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState('Alphabetically, A-Z');
-    const [filteredData, setFilteredData] = useState([]);
+    const [sortedItems, setSortedItems] = useState([]); // State for sorted items
+
     // Cart Functionality
     const [cart, setCart] = useState([])
     const [cartSidebarVisible, setCartSidebarVisible] = useState(false); // New state for cart sidebar visibility
@@ -24,13 +32,16 @@ const Shop = () => {
         console.log(cart, "the cart")
     }
 
+    // Function to toggle the dropdown
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
     };
 
+    // Function to handle option selection and sort items
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
-        setDropdownOpen(false);
+        toggleDropdown();
+        // Optional: dispatch a sorting action here or sort locally
     };
 
     // Function to toggle cart sidebar
@@ -38,33 +49,27 @@ const Shop = () => {
         setCartSidebarVisible(!cartSidebarVisible);
     };
 
+    // Function to handle sorting items based on the selected option
     useEffect(() => {
-        const unsub = onSnapshot(collection(db, 'shop'), (snapshot) => {
-            const shopData = snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+        let sortedData = [...shopItems]; // Create a copy of the shop items
+        if (selectedOption === 'Price, low to high') {
+            sortedData.sort((a, b) => a.price - b.price);
+        } else if (selectedOption === 'Price, high to low') {
+            sortedData.sort((a, b) => b.price - a.price);
+        } else if (selectedOption === 'Alphabetically, A-Z') {
+            sortedData.sort((a, b) => a.value.localeCompare(b.value));
+        } else if (selectedOption === 'Alphabetically, Z-A') {
+            sortedData.sort((a, b) => b.value.localeCompare(a.value));
+        }
+        setSortedItems(sortedData); // Set the sorted items to state
+    }, [selectedOption, shopItems]); // Re-run the effect when selectedOption or shopItems changes
 
-            const sortData = () => {
-                let sortedData = [...shopData];
-                if (selectedOption === 'Price, low to high') {
-                    sortedData = sortedData.sort((a, b) => a.price - b.price);
-                } else if (selectedOption === 'Price, high to low') {
-                    sortedData = sortedData.sort((a, b) => b.price - a.price);
-                } else if (selectedOption === 'Alphabetically, A-Z') {
-                    sortedData = sortedData.sort((a, b) => a.value.localeCompare(b.value));
-                } else if (selectedOption === 'Alphabetically, Z-A') {
-                    sortedData = sortedData.sort((a, b) => b.value.localeCompare(a.value));
-                }
-                setFilteredData(sortedData);
-            };
-            sortData();
-
-        });
-
-        return unsub; // cleanup
-    }, [selectedOption]);
-
+    // Fetch items when component mounts
     useEffect(() => {
-        setFilteredData(shop);
-    }, [shop]);
+        if (shopStatus === 'idle') {
+            dispatch(fetchShopItems());
+        }
+    }, [dispatch, shopStatus]);
 
     let items = [
         {
@@ -137,13 +142,12 @@ const Shop = () => {
                         </div>
                     )}
                 </div>
-                <p>{filteredData.length} products</p>
+                <p>{sortedItems.length} products</p>
             </div>
             <div className='items_container'>
-                {filteredData.map((item) => {
-                    return <Item item={item} addToCart={addToCart} />
-                })
-                }
+                {sortedItems.map((item) => (
+                    <Item key={item.id} item={item} /* Pass any other props needed */ />
+                ))}
             </div>
             {/* Cart Sidebar JSX */}
             <CartSidebar />

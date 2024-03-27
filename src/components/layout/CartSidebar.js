@@ -9,6 +9,7 @@ const CartSidebar = () => {
     const cartItems = useSelector((state) => state.cart.items);
     const isSidebarVisible = useSelector((state) => state.cart.sidebarVisible);
     const dispatch = useDispatch(); // Hook to dispatch actions
+    const sidebarRef = useRef(); // Create a ref
 
     // Function to handle closing the sidebar
     const handleCloseSidebar = () => {
@@ -32,9 +33,24 @@ const CartSidebar = () => {
         console.log("DECREASING")
         dispatch(decreaseQuantity(itemId));
     }
-    console.log(cartItems, "THIS THE CARTTTTTT")
+
+    // Step 2: Setup an event listener to detect clicks outside of the CartSidebar
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (sidebarRef.current && !sidebarRef.current.contains(event.target) && isSidebarVisible) {
+                dispatch(toggleCartSidebar()); // Step 3: Toggle Sidebar
+            }
+        }
+        // Add the event listener
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            // Cleanup the event listener
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isSidebarVisible, dispatch]);
+
     return (
-        <div className={`cart-sidebar ${isSidebarVisible ? 'cart-sidebar-visible' : ''}`}>
+        <div ref={sidebarRef} className={`cart-sidebar ${isSidebarVisible ? 'cart-sidebar-visible' : ''}`}>
             <div className="cart-header">
                 <h2>Cart Items</h2>
                 <AiOutlineClose className="close-icon" onClick={handleCloseSidebar} />

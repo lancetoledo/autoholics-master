@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeFromCart, toggleCartSidebar, increaseQuantity, decreaseQuantity } from '../../redux/slices/cartSlice';
+import { removeFromCart, toggleCartSidebar } from '../../redux/slices/cartSlice';
+import { increaseCartItemAsync, decreaseCartItemAsync, removeFromCartAsync } from '../../redux/thunks/cartThunks'; // Import the new thunks
 import { AiOutlineClose } from 'react-icons/ai'; // Import the icon
 import { AiOutlineMinus } from "react-icons/ai";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -10,6 +11,7 @@ const CartSidebar = () => {
     const isSidebarVisible = useSelector((state) => state.cart.sidebarVisible);
     const dispatch = useDispatch(); // Hook to dispatch actions
     const sidebarRef = useRef(); // Create a ref
+    const { user } = useSelector((state) => state.auth || {}); // Add a fallback to an empty object
 
     // Function to handle closing the sidebar
     const handleCloseSidebar = () => {
@@ -17,21 +19,21 @@ const CartSidebar = () => {
     };
 
     // Function to handle removing an item from the cart
-    const handleRemoveFromCart = (itemId) => {
-        dispatch(removeFromCart(itemId));
+    const handleRemoveFromCart = (item) => {
+        dispatch(removeFromCartAsync(user.uid, item));
     };
 
     // Calculate total price
     const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
-    const handleIncreaseCount = (itemId) => {
+    const handleIncreaseCount = (item) => {
         console.log("INCREASING")
-        dispatch(increaseQuantity(itemId));
+        dispatch(increaseCartItemAsync(user.uid, item));
     }
 
-    const handleDecreaseCount = (itemId) => {
+    const handleDecreaseCount = (item) => {
         console.log("DECREASING")
-        dispatch(decreaseQuantity(itemId));
+        dispatch(decreaseCartItemAsync(user.uid, item));
     }
 
     // Step 2: Setup an event listener to detect clicks outside of the CartSidebar
@@ -66,14 +68,14 @@ const CartSidebar = () => {
                             <div className='cart-item-btns'>
                                 <div className='cart-quantity-control'>
                                     <div className='cart-switch'>
-                                        <AiOutlineMinus className='cart-switch-ctrl' onClick={() => handleDecreaseCount(item.id)} />
+                                        <AiOutlineMinus className='cart-switch-ctrl' onClick={() => handleDecreaseCount(item)} />
                                     </div>
                                     <div id='cart-qtn'>{item.quantity}</div>
                                     <div className='cart-switch'>
-                                        <AiOutlinePlus className='cart-switch-ctrl' onClick={() => handleIncreaseCount(item.id)} />
+                                        <AiOutlinePlus className='cart-switch-ctrl' onClick={() => handleIncreaseCount(item)} />
                                     </div>
                                 </div>
-                                <p className='remove-item' onClick={() => handleRemoveFromCart(item.id)}>Remove</p>
+                                <p className='remove-item' onClick={() => handleRemoveFromCart(item)}>Remove</p>
                             </div>
 
                         </div>

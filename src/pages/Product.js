@@ -13,7 +13,8 @@ import data from '../data.json'
 import image from '../images/autoholicsShirt.jpg'
 
 import { useDispatch, useSelector } from 'react-redux'; // Import the useDispatch hook
-import { addToCart } from '../redux/slices/cartSlice'; // Import the addToCart action
+// import { addToCart } from '../redux/slices/cartSlice'; // Import the addToCart action
+import { addToCartAsync } from '../redux/thunks/cartThunks'; // Import addToCartAsync
 import { selectProductById, fetchShopItems } from '../redux/slices/shopSlice'; // Make sure you import fetchShopItems if you need to fetch items on this page
 
 
@@ -37,6 +38,8 @@ function Product() {
     const product = useSelector(state => selectProductById(state, productId));
     const shopStatus = useSelector((state) => state.shop.status);
     const cartCount = useSelector((state) => state.cart.items); // Get the number of items in the cart
+    const user = useSelector((state) => state.auth.user); // Assuming you have user state in auth slice
+    // console.log(user, "LOOK AT MEE")
     // console.log(cartCount, "current items")
 
     // Fetch products from the store if they haven't been loaded yet
@@ -93,7 +96,7 @@ function Product() {
             };
 
             // Dispatch the addToCart action with the dynamically constructed product object
-            dispatch(addToCart(productToAdd));
+            dispatch(addToCartAsync(user.uid, productToAdd));
 
             // // Provide feedback to the user
             // toast.success(`${product.name} added to cart`);

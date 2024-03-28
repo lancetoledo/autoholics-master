@@ -8,18 +8,23 @@ export const cartSlice = createSlice({
         sidebarVisible: false,
     },
     reducers: {
-        addToCart: (state, action) => {
-            const existingIndex = state.items.findIndex(
-                item => item.id === action.payload.id && item.size === action.payload.size
-            );
-
-            if (existingIndex !== -1) {
-                state.items[existingIndex].quantity += action.payload.quantity;
-            } else {
-                console.log("ADDING TO CART")
-                state.items.push(action.payload);
-            }
+        setCartItems: (state, action) => {
+            state.items = action.payload;
         },
+
+        // Firestore will manage the cart state 
+        // addToCart: (state, action) => {
+        //     const existingIndex = state.items.findIndex(
+        //         item => item.id === action.payload.id && item.size === action.payload.size
+        //     );
+
+        //     if (existingIndex !== -1) {
+        //         state.items[existingIndex].quantity += action.payload.quantity;
+        //     } else {
+        //         console.log("ADDING TO CART")
+        //         state.items.push(action.payload);
+        //     }
+        // },
 
         removeFromCart: (state, action) => {
             state.items = state.items.filter(item => item.id !== action.payload);
@@ -40,9 +45,12 @@ export const cartSlice = createSlice({
                 existingItem.quantity -= 1;
             }
         },
+        clearCart: (state) => {
+            state.items = [];
+        },
     },
 });
 
-export const { addToCart, removeFromCart, toggleCartSidebar, increaseQuantity, decreaseQuantity } = cartSlice.actions;
+export const { removeFromCart, toggleCartSidebar, increaseQuantity, decreaseQuantity, clearCart, setCartItems } = cartSlice.actions;
 
 export default cartSlice.reducer;

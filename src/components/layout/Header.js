@@ -10,8 +10,10 @@ import { IoBagHandleOutline } from 'react-icons/io5';
 
 // Redux Imports
 import { useSelector, useDispatch } from 'react-redux';
-import { toggleCartSidebar } from '../../redux/slices/cartSlice'; // Import the action creator
+import { toggleCartSidebar, clearCart } from '../../redux/slices/cartSlice'; // Import the action creator
 import { logout } from '../../redux/slices/authSlice'; // Import the logout action
+import { fetchOrInitializeCart } from '../../redux/thunks/cartThunks';
+
 
 const Header = ({ click, setClick, }) => {
     const [scrollNav, setScrollNav] = useState(false);
@@ -25,10 +27,11 @@ const Header = ({ click, setClick, }) => {
     const location = useLocation();
     const ScrollLink = Scroll.Link;
 
-    console.log(user, "USER IS LOGGED IN BRO")
+
     // Logout Function
     const handleLogout = () => {
         dispatch(logout());
+        dispatch(clearCart())
         // Optionally, navigate to a different route upon logout
         // navigate('/signin');
         // Provide a message to let users know they logged out
@@ -45,6 +48,12 @@ const Header = ({ click, setClick, }) => {
             setClick(section);
         }
     };
+
+    useEffect(() => {
+        if (user) {
+            dispatch(fetchOrInitializeCart(user.uid));
+        }
+    }, [user, dispatch]);
 
 
     // UseEffect to scroll user on Header items.

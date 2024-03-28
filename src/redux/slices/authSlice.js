@@ -15,7 +15,7 @@ export const authSlice = createSlice({
         },
         loginSuccess: (state, action) => {
             state.loading = false;
-            state.user = action.payload;
+            state.user = action.payload; // Payload includes the user object with UID
         },
         loginFailure: (state, action) => {
             state.loading = false;

@@ -1,0 +1,248 @@
+/* Checkout.css */
+.checkout {
+    display: flex;
+    justify-content: space-between;
+    /* padding: 20px; */
+}
+
+.checkout-container {
+    display: flex;
+    width: 100%;
+    padding-top: 80px;
+    /* This should be equal to or greater than the header's height */
+}
+
+
+.checkout-header {
+    width: 100%;
+    height: 80px;
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    border-bottom: 1px solid rgb(212, 212, 212);
+}
+
+.checkout-frame {
+    display: flex;
+    justify-content: space-between;
+    max-width: 900px;
+}
+
+.checkout-logo {
+    width: 180px;
+    height: 30px;
+    cursor: pointer;
+    filter: invert(100%);
+}
+
+
+.checkout-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 700px;
+    width: 100%;
+    padding: 0 20px;
+    /* Add padding to the left and right */
+    box-sizing: border-box;
+    /* Include padding in the width calculation */
+}
+
+.checkout-cart-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    filter: invert(100%);
+}
+
+.cart-count {
+    position: absolute;
+    top: 35px;
+    right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background-color: #ff5252;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.logo {
+    width: 180px;
+    height: 30px;
+    cursor: pointer;
+    /* background-color: blue; */
+}
+
+.checkout-nav_menu {
+    display: flex;
+    gap: 100px;
+    width: auto;
+}
+
+
+.checkout-nav_item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+}
+
+
+.checkout-nav_item:hover {
+    cursor: pointer;
+    /* border-bottom: 3px solid rgb(1, 191, 113); */
+}
+
+.checkout-activate {
+    border-bottom: 3px solid rgb(1, 191, 113);
+}
+
+.checkout-user_controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 20px;
+    width: fit-content;
+}
+
+
+.checkout-user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    /* background-color: red; */
+}
+
+.btn {
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+    background: #01bf71;
+}
+
+.btn:hover {
+    transition: all 0.2s ease-in-out;
+    background: #ffffff;
+}
+
+#nav_btn {
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 110px;
+    color: #010606;
+    font-size: 16px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+
+}
+
+.express-checkout {
+    /* background-color: yellow; */
+    width: 53%;
+}
+
+
+.express-checkout button {
+    padding: 10px;
+    margin: 10px;
+    cursor: pointer;
+
+}
+
+/* You will add styles for .paypal-button, .amazon-button, .venmo-button similarly */
+.paypal-button {
+    width: 200px;
+    height: 100px;
+}
+
+.amazon-button {
+    width: 200px;
+    height: 100px;
+}
+
+.venmo-button {
+    width: 200px;
+    height: 100px;
+}
+
+.checkout-form {
+    /* Styles for your form */
+}
+
+.contact-section,
+.delivery-section,
+.payment-section {
+    margin-bottom: 20px;
+}
+
+.contact-section input,
+.delivery-section input,
+.payment-section input {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+}
+
+.checkout-form {
+    background: #010101;
+    /* max-width: 400px; */
+    height: auto;
+    width: 100%;
+    z-index: 1;
+    display: grid;
+    margin: 0 auto;
+    padding: 80px 32px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+
+    @media screen and (max-width: 400px) {
+        padding: 32px 32px;
+    }
+}
+
+.checkout-form h1 {
+    margin-bottom: 40px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.checkout-form label {
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #fff;
+}
+
+.checkout-form input {
+    padding: 16px 16px;
+    margin-bottom: 32px;
+    border: none;
+    border-radius: 4px;
+    height: auto;
+}
+
+.order-summary {
+    /* Styles for the order summary */
+    width: 48%;
+    background-color: #F5F5F5;
+    border-left: 1px solid rgb(212, 212, 212);
+}
+
+/* Add specific styles for each section, inputs, buttons, etc. */

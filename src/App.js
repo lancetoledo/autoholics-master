@@ -11,6 +11,7 @@ import './styles/Home.css';
 import './styles/Login.css';
 import './styles/Shop.css';
 import './styles/Product.css';
+import CheckOut from './pages/CheckOut';
 
 function App() {
   const isSidebarVisible = useSelector((state) => state.cart.sidebarVisible);
@@ -33,6 +34,7 @@ function App() {
         <Route path='/signup' element={<SignUp />} />
         <Route path='/shop' element={<Shop />} />
         <Route path='/product/:productId' element={<Product />} />
+        <Route path='/checkouts' element={<CheckOut />} />
       </Routes>
     </div>
   );

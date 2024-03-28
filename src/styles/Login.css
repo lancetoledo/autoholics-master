@@ -54,7 +54,7 @@
     }
 }
 
-form {
+.login-form {
     background: #010101;
     max-width: 400px;
     height: auto;
@@ -71,7 +71,7 @@ form {
     }
 }
 
-form h1 {
+.login-form h1 {
     margin-bottom: 40px;
     color: #fff;
     font-size: 20px;
@@ -79,13 +79,13 @@ form h1 {
     text-align: center;
 }
 
-form label {
+.login-form label {
     margin-bottom: 8px;
     font-size: 14px;
     color: #fff;
 }
 
-form input {
+.login-form input {
     padding: 16px 16px;
     margin-bottom: 32px;
     border: none;
@@ -230,7 +230,7 @@ form input {
     /* background-color: red; */
 }
 
-form a {
+.login-form a {
     /* background-color: yellow; */
     width: 80%;
 }

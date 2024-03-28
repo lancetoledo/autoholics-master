@@ -12,7 +12,7 @@ const Login = ({ title, button, href, link, help, headerStatement, firstNameInpu
                     <img className='logo' src={logo} alt="Autoholics" />
                 </Link>
                 <div className='form_content'>
-                    <form>
+                    <form className='login-form'>
                         <h1>{title}</h1>
                         {isSingingUp ? <label htmlFor='for'>First Name</label> : ""}
                         {isSingingUp ? <input ref={firstNameInput} required></input> : ""}

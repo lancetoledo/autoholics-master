@@ -13,6 +13,9 @@ import './styles/Shop.css';
 import './styles/Product.css';
 import CheckOut from './pages/CheckOut';
 
+import { Elements } from '@stripe/react-stripe-js';
+import stripePromise from './services/stripe'; 
+
 function App() {
   const isSidebarVisible = useSelector((state) => state.cart.sidebarVisible);
   const dispatch = useDispatch();
@@ -23,6 +26,7 @@ function App() {
   };
 
   return (
+    <Elements stripe={stripePromise} >
     <div className="App">
       {/* Overlay div that becomes clickable only when the sidebar is visible */}
       {isSidebarVisible && <div className="app-overlay" onClick={handleCloseSidebar}></div>}
@@ -37,6 +41,7 @@ function App() {
         <Route path='/checkouts' element={<CheckOut />} />
       </Routes>
     </div>
+    </Elements>
   );
 }
 

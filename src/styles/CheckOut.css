@@ -200,7 +200,7 @@
 }
 
 .checkout-form {
-    background: #010101;
+    /* background: #010101; */
     /* max-width: 400px; */
     height: auto;
     width: 100%;
@@ -238,11 +238,46 @@
     height: auto;
 }
 
+.pay-button {
+    background-color: #5469d4;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s ease;
+}
+
+.pay-button:hover {
+    background-color: #4253af;
+}
+
+.pay-button:disabled {
+    background-color: #a2a2a2;
+    cursor: not-allowed;
+}
+
+
 .order-summary {
     /* Styles for the order summary */
     width: 48%;
     background-color: #F5F5F5;
     border-left: 1px solid rgb(212, 212, 212);
+}
+
+/* Styling for Stripe CardElement */
+.CardElement {
+    height: 40px;
+    padding: 10px;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.StripeElement--focus {
+    border-color: #80bdff;
 }
 
 /* Add specific styles for each section, inputs, buttons, etc. */

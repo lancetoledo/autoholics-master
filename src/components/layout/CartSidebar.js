@@ -5,6 +5,7 @@ import { increaseCartItemAsync, decreaseCartItemAsync, removeFromCartAsync } fro
 import { AiOutlineClose } from 'react-icons/ai'; // Import the icon
 import { AiOutlineMinus } from "react-icons/ai";
 import { AiOutlinePlus } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const CartSidebar = () => {
     const cartItems = useSelector((state) => state.cart.items);
@@ -82,9 +83,12 @@ const CartSidebar = () => {
                     </div>
                 ))}
             </div>
+
+            <Link to={`/checkouts`} className='logo_div' style={{ textDecoration: 'none' }} onClick={handleCloseSidebar}>
             <button className="checkout-button">
                 Checkout - Total: ${totalPrice.toFixed(2)}
             </button>
+            </Link>
         </div>
     );
 };

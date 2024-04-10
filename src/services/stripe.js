@@ -2,7 +2,7 @@
 import { loadStripe } from '@stripe/stripe-js';
 
 // Use your public Stripe key.
-const stripePromise = loadStripe('pk_test_yourPublicKey');
+const stripePromise = loadStripe('pk_test_51OzPPXDw7cwGoysG8xBLkpvqkYagHJhCKmbCa1yo1uzA3vgHUzVZjvSPN7nycDY33oMFC8z1TzwwT4vZytsRxLGk00oGpkKvyL');
 
 export const initiateCheckout = async ({ lineItems }) => {
     const stripe = await stripePromise;

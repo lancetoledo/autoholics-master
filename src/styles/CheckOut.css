@@ -264,6 +264,8 @@
     width: 48%;
     background-color: #F5F5F5;
     border-left: 1px solid rgb(212, 212, 212);
+    display: flex;
+    flex-direction: column;
 }
 
 /* Styling for Stripe CardElement */
@@ -281,3 +283,67 @@
 }
 
 /* Add specific styles for each section, inputs, buttons, etc. */
+
+/* Styles for each cart item */
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #ccc; /* subtle line for each item */
+  }
+  
+  /* Styles for the image within a cart item */
+  .cart-item-image {
+    width: 60px; /* fixed width, adjust as necessary */
+    height: auto; /* maintain aspect ratio */
+    margin-right: 15px; /* space between image and details */
+  }
+  
+  /* Detailed styling for the content next to the image */
+  .cart-item-details {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  
+  .cart-item-details p {
+    margin: 0;
+    padding: 2px 0; /* little spacing for better readability */
+  }
+  
+  /* Style for prices and quantities */
+  .cart-price, #cart-qtn {
+    font-weight: bold;
+  }
+  
+  /* Enhance the checkout button appearance */
+  .checkout-button {
+    background-color: #04AA6D; /* Green background */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .checkout-button:hover {
+    background-color: #037f55; /* Darker green on hover */
+  }
+  
+  /* If you have specific styles for your buttons inside cart-item-btns */
+  .cart-item-btns button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #007BFF; /* Bootstrap primary color */
+    padding: 5px 10px;
+    margin: 5px 0;
+  }
+  
+  .cart-item-btns button:hover {
+    text-decoration: underline;
+  }

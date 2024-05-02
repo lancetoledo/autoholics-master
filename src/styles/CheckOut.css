@@ -152,13 +152,18 @@
 
 }
 
-.express-checkout {
+.checkout-left {
     /* background-color: yellow; */
-    width: 53%;
+    width: 53%; 
+}
+.express-checkout {
+    margin-left: auto;
+    margin-right: 15px;
+    width: 45%;
 }
 
 
-.express-checkout button {
+.checkout-left button {
     padding: 10px;
     margin: 10px;
     cursor: pointer;
@@ -184,11 +189,11 @@
 /* Delivery Form Styling */
 .delivery-form {
     width: 100%;
+    height: auto;
     margin-top: 20px;
     padding: 20px;
     background: #fff;
     border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     color: #010606;
 }
 
@@ -223,9 +228,15 @@
     display: block;
     height: 35px;
 }
-
+.save-info{
+    /* background-color: #007BFF; */
+    height: auto;
+    display: flex;
+}
 #save-info {
     /* background-color: yellow; */
+    width: auto;
+    /* text-align: center; */
 }
 
 /* Style adjustments for mobile views */
@@ -235,10 +246,6 @@
     }
 }
 
-
-.checkout-form {
-    /* Styles for your form */
-}
 
 .contact-section,
 .delivery-section,
@@ -262,7 +269,7 @@
     z-index: 1;
     display: grid;
     margin: 0 auto;
-    padding: 80px 32px;
+    padding: 0px 24px;
     border-radius: 4px;
 
     @media screen and (max-width: 400px) {
@@ -313,14 +320,7 @@
 }
 
 
-.order-summary {
-    /* Styles for the order summary */
-    width: 48%;
-    background-color: #F5F5F5;
-    border-left: 1px solid rgb(212, 212, 212);
-    display: flex;
-    flex-direction: column;
-}
+
 
 /* Styling for Stripe CardElement */
 .CardElement {
@@ -328,7 +328,7 @@
     padding: 10px;
     width: 100%;
     background-color: white;
-    border: 1px solid #ccc;
+    border: 1px solid lightgray;
     border-radius: 4px;
 }
 
@@ -338,6 +338,26 @@
 
 /* Add specific styles for each section, inputs, buttons, etc. */
 
+.order-summary {
+    /* Styles for the order summary */
+    width: 48%;
+    background-color: #F5F5F5;
+    border-left: 1px solid rgb(212, 212, 212);
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+}
+
+.order-summary h2 {
+    height: 20px;
+
+}
+
+
+.cart-items {
+    /* background-color: red; */
+
+}
 /* Styles for each cart item */
 .cart-item {
     display: flex;
@@ -353,6 +373,7 @@
     width: 60px; /* fixed width, adjust as necessary */
     height: auto; /* maintain aspect ratio */
     margin-right: 15px; /* space between image and details */
+    border-radius: 5px;
   }
   
   /* Detailed styling for the content next to the image */
@@ -371,6 +392,7 @@
   /* Style for prices and quantities */
   .cart-price, #cart-qtn {
     font-weight: bold;
+    font-size: x-large;
   }
   
   /* Enhance the checkout button appearance */

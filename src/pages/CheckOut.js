@@ -16,7 +16,10 @@ const Checkout = () => {
     const [paymentRequestAvailable, setPaymentRequestAvailable] = useState(false);
 
     // Calculate the total amount of the cart
-    const calculateTotal = () => cartItems.reduce((total, item) => total + item.price * item.quantity, 0) * 100; // Convert to cents
+    const calculateTotal = () => {
+        const total = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+        return Math.round(total * 100); // Convert to cents and round to the nearest whole number
+    }; // Convert to cents
 
     useEffect(() => {
         if (stripe) {
@@ -61,62 +64,75 @@ const Checkout = () => {
         }
     };
 
+    const CARD_ELEMENT_OPTIONS = {
+        style: {
+            base: {
+                border: '1px solid lightgray'
+            },
+        },
+    };
+
     return (
         <div className="checkout">
             <CheckOutHeader />
             <div className="checkout-container">
-                <div className="express-checkout">
-                    <button className="paypal-button">PayPal</button>
-                    <button className="venmo-button">Venmo</button>
-                    <div className="delivery-form">
-                        <h3 className='delivery-header'>Delivery</h3>
-                        <label className='delivery-label' htmlFor="country">Country/Region</label>
-                        <select id="country" name="country">
-                            <option value="usa">United States</option>
-                        </select>
-                        <input type="text" id="first-name" placeholder="First name" />
-                        <input type="text" id="last-name" placeholder="Last name" />
-                        <input type="text" id="address" placeholder="Address" />
-                        <input type="text" id="apartment" placeholder="Apartment, suite, etc. (optional)" />
-                        <input type="text" id="city" placeholder="City" />
-                        <select id="state" name="state">
-                            <option value="nj">New Jersey</option>
-                        </select>
-                        <input type="text" id="zip" placeholder="ZIP code" />
-                        <input type="text" id="phone" placeholder="Phone (optional)" />
-                        <label id="save-info" >
-                            <input type="checkbox" /> Save this information for next time
-                        </label>
+                <div className="checkout-left">
+                    <div className='express-checkout'>
+                        {/* <div className="delivery-form">
+                            <h3 className='delivery-header'>Delivery</h3>
+                            <label className='delivery-label' htmlFor="country">Country/Region</label>
+                            <select id="country" name="country">
+                                <option value="usa">United States</option>
+                            </select>
+                            <input type="text" id="first-name" placeholder="First name" />
+                            <input type="text" id="last-name" placeholder="Last name" />
+                            <input type="text" id="address" placeholder="Address" />
+                            <input type="text" id="apartment" placeholder="Apartment, suite, etc. (optional)" />
+                            <input type="text" id="city" placeholder="City" />
+                            <select id="state" name="state">
+                                <option value="nj">New Jersey</option>
+                            </select>
+                            <input type="text" id="zip" placeholder="ZIP code" />
+                            <input type="text" id="phone" placeholder="Phone (optional)" />
+                            <div className='save-info'>
+                                <div id="save-info"><input type="checkbox"  /></div>
+                                Save this information for next time
+                            </div>
+                        </div> */}
+                        <form className="checkout-form" onSubmit={handlePayment}>
+                            <div className="contact-section">
+                                <label htmlFor="email">Email</label>
+                                <input type="email" id="email" placeholder="Enter your email" required />
+                            </div>
+                            <div className="payment-section">
+                                <label>Card Details</label>
+                                <CardElement id="card-element" options={{hidePostalCode: true}}  />
+                                {paymentRequestAvailable && (
+                                    <PaymentRequestButtonElement options={{paymentRequest}} />
+                                )}
+                            </div>
+                            <button type="submit" disabled={!stripe} className="pay-button">
+                                Pay ${calculateTotal() / 100} {/* Convert cents back to dollars for display */}
+                            </button>
+                        </form>
                     </div>
-                    <form className="checkout-form" onSubmit={handlePayment}>
-                        <div className="contact-section">
-                            <label htmlFor="email">Email</label>
-                            <input type="email" id="email" placeholder="Enter your email" required />
-                        </div>
-                        <div className="payment-section">
-                            <label>Card Details</label>
-                            <CardElement id="card-element" options={{hidePostalCode: true}} />
-                            {paymentRequestAvailable && (
-                                <PaymentRequestButtonElement options={{paymentRequest}} />
-                            )}
-                        </div>
-                        <button type="submit" disabled={!stripe} className="pay-button">
-                            Pay ${calculateTotal() / 100} {/* Convert cents back to dollars for display */}
-                        </button>
-                    </form>
+                   
                 </div>
                 <div className="order-summary">
                     <h2>Order Summary</h2>
-                    {cartItems.map((item, index) => (
-                        <div key={index} className="cart-item">
-                            <img src={item.image} alt={item.name} className="cart-item-image" />
-                            <div>
-                                <p>{item.name}</p>
-                                <p>${(item.price * item.quantity).toFixed(2)}</p>
+                    <div className='cart-items'>
+                        {cartItems.map((item, index) => (
+                            <div key={index} className="cart-item">
+                                <img src={item.image} alt={item.name} className="cart-item-image" />
+                                <div className='cart-item-details'>
+                                    <p>{item.name}</p>
+                                    <p>{item.size}</p>
+                                    <p>${(item.price * item.quantity).toFixed(2)}</p>
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                    <div>Total: ${(calculateTotal() / 100).toFixed(2)}</div>
+                        ))}
+                        <div className='cart-price'>Total: ${(calculateTotal() / 100).toFixed(2)}</div>
+                    </div>
                 </div>
             </div>
         </div>

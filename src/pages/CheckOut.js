@@ -49,7 +49,7 @@ const Checkout = () => {
     };
     
 
-
+console.log("hey")
     
     return (
         <div className="checkout">

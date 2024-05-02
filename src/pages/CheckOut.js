@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import '../styles/CheckOut.css';
 import CheckOutHeader from '../components/layout/CheckOutHeader';
 import { useSelector, useDispatch } from 'react-redux';
-import { clearCart } from '../redux/slices/cartSlice';
+import { clearCartAsync } from '../redux/thunks/cartThunks';
+import {clearCart} from '../redux/slices/cartSlice'
 import stripePromise from '../services/stripe';
 import { CardElement, useStripe, useElements, PaymentRequestButtonElement } from '@stripe/react-stripe-js';
 
@@ -11,6 +12,7 @@ const Checkout = () => {
     const elements = useElements();
     const cartItems = useSelector((state) => state.cart.items);
     const dispatch = useDispatch();
+    const { user } = useSelector((state) => state.auth || {});
 
     const [paymentRequest, setPaymentRequest] = useState(null);
     const [paymentRequestAvailable, setPaymentRequestAvailable] = useState(false);
@@ -60,6 +62,7 @@ const Checkout = () => {
         } else {
             console.log('[PaymentMethod]', paymentMethod);
             dispatch(clearCart());
+            dispatch(clearCartAsync(user.uid));
             alert('Payment successful!');
         }
     };
@@ -127,7 +130,8 @@ const Checkout = () => {
                                 <div className='cart-item-details'>
                                     <p>{item.name}</p>
                                     <p>{item.size}</p>
-                                    <p>${(item.price * item.quantity).toFixed(2)}</p>
+                                    <p>x{item.quantity}</p>
+                                    <p>${(item.price).toFixed(2)}</p>
                                 </div>
                             </div>
                         ))}

@@ -12,7 +12,7 @@ import { IoBagHandleOutline } from 'react-icons/io5';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleCartSidebar, clearCart } from '../../redux/slices/cartSlice'; // Import the action creator
 import { logout } from '../../redux/slices/authSlice'; // Import the logout action
-import { fetchOrInitializeCart } from '../../redux/thunks/cartThunks';
+import { fetchOrInitializeCart , clearCartAsync} from '../../redux/thunks/cartThunks';
 
 
 const Header = ({ click, setClick, }) => {
@@ -31,7 +31,6 @@ const Header = ({ click, setClick, }) => {
     // Logout Function
     const handleLogout = () => {
         dispatch(logout());
-        dispatch(clearCart())
         // Optionally, navigate to a different route upon logout
         // navigate('/signin');
         // Provide a message to let users know they logged out

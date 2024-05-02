@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeFromCart, toggleCartSidebar } from '../../redux/slices/cartSlice';
-import { increaseCartItemAsync, decreaseCartItemAsync, removeFromCartAsync } from '../../redux/thunks/cartThunks'; // Import the new thunks
+import { increaseCartItemAsync, decreaseCartItemAsync, removeFromCartAsync, clearCartAsync } from '../../redux/thunks/cartThunks'; // Import the new thunks
 import { AiOutlineClose } from 'react-icons/ai'; // Import the icon
 import { AiOutlineMinus } from "react-icons/ai";
 import { AiOutlinePlus } from "react-icons/ai";

@@ -137,3 +137,18 @@ export const decreaseCartItemAsync = (userId, itemToUpdate) => async (dispatch) 
         console.error("Error increasing item quantity in cart:", error);
     }
 };
+
+// Thunk for clearing the cart in Firestore
+export const clearCartAsync = (userId) => async (dispatch) => {
+    const cartRef = doc(db, 'carts', userId);
+    try {
+        // Set the items array to an empty array to clear the cart
+        await updateDoc(cartRef, {
+            items: []
+        });
+        // // After clearing the Firestore cart, dispatch the clearCart action to update local state
+        // dispatch(clearCart());
+    } catch (error) {
+        console.error("Error clearing cart in Firestore:", error);
+    }
+};

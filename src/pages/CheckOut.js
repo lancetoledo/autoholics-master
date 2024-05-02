@@ -1,98 +1,110 @@
-import React from 'react';
-import '../styles/CheckOut.css'; // This is the CSS file for styling the component
+import React, { useEffect, useState } from 'react';
+import '../styles/CheckOut.css';
 import CheckOutHeader from '../components/layout/CheckOutHeader';
 import { useSelector, useDispatch } from 'react-redux';
-import { toggleCartSidebar, clearCart } from '../redux/slices/cartSlice'; // Import the action 
+import { clearCart } from '../redux/slices/cartSlice';
 import stripePromise from '../services/stripe';
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-
-
-
-
+import { CardElement, useStripe, useElements, PaymentRequestButtonElement } from '@stripe/react-stripe-js';
 
 const Checkout = () => {
     const stripe = useStripe();
     const elements = useElements();
     const cartItems = useSelector((state) => state.cart.items);
-    const dispatch = useDispatch(); // Hook to dispatch actions
+    const dispatch = useDispatch();
 
-    const calculateTotal = () => {
-        return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-    };
+    const [paymentRequest, setPaymentRequest] = useState(null);
+    const [paymentRequestAvailable, setPaymentRequestAvailable] = useState(false);
 
-    const handlePayment = async (e) => {
-        e.preventDefault(); // Prevent the form from submitting normally
-        const totalAmount = calculateTotal();  // Convert to cents if required by multiplying by 100
+    // Calculate the total amount of the cart
+    const calculateTotal = () => cartItems.reduce((total, item) => total + item.price * item.quantity, 0) * 100; // Convert to cents
+
+    useEffect(() => {
+        if (stripe) {
+            const pr = stripe.paymentRequest({
+                country: 'US',
+                currency: 'usd',
+                total: {
+                    label: 'Total',
+                    amount: calculateTotal(),
+                },
+                requestPayerName: true,
+                requestPayerEmail: true,
+            });
+
+            pr.canMakePayment().then(result => {
+                setPaymentRequestAvailable(!!result);
+                setPaymentRequest(pr);
+            });
+        }
+    }, [stripe, cartItems]); // Dependency array includes stripe to re-run effect if stripe object changes or cart items change
+
+    const handlePayment = async (event) => {
+        event.preventDefault();
         if (!stripe || !elements) {
-            // Stripe.js has not loaded yet. Make sure to disable form submission until Stripe.js has loaded.
+            console.log('Stripe.js has not fully loaded.');
             return;
         }
-    
-        // Get a reference to a mounted CardElement. Elements knows how
-        // to find your CardElement because there can only ever be one of
-        // each type of element.
-        const card = elements.getElement(CardElement);
-    
-        // Use your card Element with other Stripe.js APIs
-        const {error, paymentMethod} = await stripe.createPaymentMethod({
+
+        const cardElement = elements.getElement(CardElement);
+        const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: 'card',
-            card: card,
+            card: cardElement,
         });
-    
+
         if (error) {
-            console.log('[error]', error);
+            console.error('[error]', error);
+            alert('Payment failed: ' + error.message);
         } else {
-            console.log('[PaymentMethod]', paymentMethod, "PAID");
-            // You can now pass paymentMethod.id to your backend to create a charge...
+            console.log('[PaymentMethod]', paymentMethod);
             dispatch(clearCart());
+            alert('Payment successful!');
         }
     };
-    
 
-console.log("hey")
-    
     return (
         <div className="checkout">
+            <CheckOutHeader />
             <div className="checkout-container">
-                <CheckOutHeader />
-                {/* Express Checkout Section */}               
                 <div className="express-checkout">
                     <button className="paypal-button">PayPal</button>
-                    <button className="amazon-button">Amazon Pay</button>
                     <button className="venmo-button">Venmo</button>
-                    {/* ... Other express checkout options */}
+                    <div className="delivery-form">
+                        <h3 className='delivery-header'>Delivery</h3>
+                        <label className='delivery-label' htmlFor="country">Country/Region</label>
+                        <select id="country" name="country">
+                            <option value="usa">United States</option>
+                        </select>
+                        <input type="text" id="first-name" placeholder="First name" />
+                        <input type="text" id="last-name" placeholder="Last name" />
+                        <input type="text" id="address" placeholder="Address" />
+                        <input type="text" id="apartment" placeholder="Apartment, suite, etc. (optional)" />
+                        <input type="text" id="city" placeholder="City" />
+                        <select id="state" name="state">
+                            <option value="nj">New Jersey</option>
+                        </select>
+                        <input type="text" id="zip" placeholder="ZIP code" />
+                        <input type="text" id="phone" placeholder="Phone (optional)" />
+                        <label id="save-info" >
+                            <input type="checkbox" /> Save this information for next time
+                        </label>
+                    </div>
                     <form className="checkout-form" onSubmit={handlePayment}>
-                        {/* Contact Section */}
                         <div className="contact-section">
                             <label htmlFor="email">Email</label>
-                            <input type="email" id="email" placeholder="Enter your email" />
-                            {/* ... Other contact fields */}
+                            <input type="email" id="email" placeholder="Enter your email" required />
                         </div>
-
-                        {/* Delivery Section */}
-                        <div className="delivery-section">
-                            {/* ... Delivery fields */}
-                        </div>
-
-                        {/* Payment Section */}
                         <div className="payment-section">
-                            <label htmlFor="card-number">Card Details</label>
-                            <CardElement id="card-number" options={{hidePostalCode: true}} />
-                            {/* ... Other payment fields */}
+                            <label>Card Details</label>
+                            <CardElement id="card-element" options={{hidePostalCode: true}} />
+                            {paymentRequestAvailable && (
+                                <PaymentRequestButtonElement options={{paymentRequest}} />
+                            )}
                         </div>
-
-
-                        {/* ... Rest of the form */}
                         <button type="submit" disabled={!stripe} className="pay-button">
-                            Pay
-                         </button>
+                            Pay ${calculateTotal() / 100} {/* Convert cents back to dollars for display */}
+                        </button>
                     </form>
                 </div>
-
-                {/* Form Section */}
-
-
-                {/* Order Summary Section */}
                 <div className="order-summary">
                     <h2>Order Summary</h2>
                     {cartItems.map((item, index) => (
@@ -100,19 +112,15 @@ console.log("hey")
                             <img src={item.image} alt={item.name} className="cart-item-image" />
                             <div>
                                 <p>{item.name}</p>
-                                <p>${item.price.toFixed(2)} x {item.quantity}</p>
+                                <p>${(item.price * item.quantity).toFixed(2)}</p>
                             </div>
                         </div>
                     ))}
-                    {console.log(cartItems, '?')}
-                    <div>Total: ${calculateTotal().toFixed(2)}</div>
+                    <div>Total: ${(calculateTotal() / 100).toFixed(2)}</div>
                 </div>
-
             </div>
-
-
         </div>
     );
-}
+};
 
 export default Checkout;
